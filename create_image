@@ -1,0 +1,62 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Create a blank canvas for the image
+width = 400
+height = 300
+channels = 3
+image = np.zeros((height, width, channels), dtype=np.uint8)
+
+#setting up the sky
+# blue colour
+image[:25, : , 0] = 0
+image[:25, : , 1] = 0
+image[:25, : , 2] = 96
+
+#sky colour
+image[25:65, : , 0] = 0
+image[25:65, : , 1] = 0
+image[25:65, : , 2] = 191
+
+# Orange colour
+image[65:150, : , 0] = 121
+image[65:150, : , 1] = 121
+image[65:150, : , 2] = 255
+
+
+# Generate the sun
+sun_radius = 75
+sun_center = (150, 250)  # (y, x) coordinates
+sun_color = (202, 202, 202)  # Yellow
+
+# Calculate the distance from the sun center for each pixel
+y_coords, x_coords = np.ogrid[:height, :width]
+distance = np.sqrt((x_coords - sun_center[1]) ** 2 + (y_coords - sun_center[0]) ** 2)
+
+# Create a circular mask for the sun
+sun_mask = distance <= sun_radius
+
+# Apply the sun color to the pixels within the mask
+image[sun_mask] = sun_color
+
+# sea
+image[150:, :, 0] = 0
+image[150:, :, 1] = 61
+image[150:, :, 2] = 121
+
+image[210:220, 100:150, 0] = 14
+image[210:220, 100:150, 1] = 14
+image[210:220, 100:150, 2] = 14
+
+image[220:230, 105:145, 0] = 14
+image[220:230, 105:145, 1] = 14
+image[220:230, 105:145, 2] = 14
+
+image[230:235, 110:140, 0] = 14
+image[230:235, 110:140, 1] = 14
+image[230:235, 110:140, 2] = 14
+
+# Display the image
+plt.imshow(image)
+plt.axis('on')
+plt.show()
